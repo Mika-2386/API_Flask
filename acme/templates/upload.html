@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<form method=post enctype=multipart/form-data action="/upload">
+  <input type=file name=file>
+  <input type=submit value=Загрузить>
+</form>
+
+<h2>Доступные файлы для скачивания и удаления:</h2>
+{% if files %}
+    {% for filename in files %}
+        <div style="margin-bottom:10px;">
+            <a href="/upload/{{ filename }}" download>{{ filename }}</a>
+            <!-- форма для удаления файла -->
+            <form method="post" action="/delete/{{ filename }}" style="display:inline;">
+                <button type="submit">Удалить</button>
+            </form>
+        </div>
+    {% endfor %}
+{% else %}
+    <p>Нет файлов для скачивания.</p>
+{% endif %}
+
+<a href="/"> <button type="submit">На главную</button></a>
+
+{% endblock %}
+
+
+
