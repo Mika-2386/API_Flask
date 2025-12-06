@@ -1,18 +1,26 @@
 import os
 import pandas as pd
 import psycopg2
-from flask import Flask, request, send_from_directory, render_template
-from werkzeug.utils import redirect
+from flask import Flask, request, render_template
 
-db_params = {}
+from werkzeug.utils import redirect
+from models import *
+
 
 app = Flask(__name__)
+
+db_params = {}
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://mihail:Qwerty12345@localhost:5432/data_flask'
+db.init_app(app)
 
 #  Куда сохраняем
 UPLOAD_FOLDER = os.path.join(os.getcwd(), 'uploads')
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 # Загрузка и сохранение в uploaded
+
+
+
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
@@ -72,13 +80,38 @@ def download_table():
     except Exception as e:
         return f"Ошибка: {str(e)}"
 
+@app.route('/analyze_salary')
+def analyze_salary():
+    with app.app_context():
+        salaries = Salary_manager.query.all()
+        if not salaries:
+            return render_template(template_name_or_list='base.html', analysis_results=None, files=os.listdir(UPLOAD_FOLDER))
+        df = pd.DataFrame([{
+            'id': s.id,
+            'post': s.post,
+            'salary': s.salary
+        } for s in salaries])
+
+    mean_salary = df['salary'].mean()
+    median_salary = df['salary'].median()
+    correlation = df[['id', 'salary']].corr().iloc[0, 1]
+
+    analysis_results = {
+        'mean_salary': round(mean_salary, 2),
+        'median_salary': round(median_salary, 2),
+        'correlation': round(correlation, 2)
+    }
+
+    # Передача в шаблон
+    return render_template(template_name_or_list='base.html',
+                           analysis_results=analysis_results,
+                           files=os.listdir(UPLOAD_FOLDER))
+
+
+
 # -стартовая страница
 @app.route('/', methods=['GET'])
 def index():
     # отображение списка скаченных файлов
     files = os.listdir(UPLOAD_FOLDER)
     return render_template(template_name_or_list='base.html', files=files)
-
-
-
-
