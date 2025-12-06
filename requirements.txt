@@ -10,30 +10,65 @@ click==8.3.1
     # via flask
 colorama==0.4.6
     # via click
+contourpy==1.3.3
+    # via matplotlib
+cycler==0.12.1
+    # via matplotlib
+et-xmlfile==2.0.0
+    # via openpyxl
 flask==3.1.2
+    # via
+    #   -r requirements.in
+    #   flask-sqlalchemy
+flask-sqlalchemy==3.1.1
     # via -r requirements.in
+fonttools==4.61.0
+    # via matplotlib
+greenlet==3.3.0
+    # via sqlalchemy
 itsdangerous==2.2.0
     # via flask
 jinja2==3.1.6
     # via flask
+kiwisolver==1.4.9
+    # via matplotlib
 markupsafe==3.0.3
     # via
     #   flask
     #   jinja2
     #   werkzeug
+matplotlib==3.10.7
+    # via -r requirements.in
 numpy==2.3.5
-    # via pandas
+    # via
+    #   contourpy
+    #   matplotlib
+    #   pandas
+openpyxl==3.1.5
+    # via -r requirements.in
+packaging==25.0
+    # via matplotlib
 pandas==2.3.3
     # via -r requirements.in
+pillow==12.0.0
+    # via matplotlib
+psycopg2-binary==2.9.11
+    # via -r requirements.in
+pyparsing==3.2.5
+    # via matplotlib
 python-dateutil==2.9.0.post0
-    # via pandas
+    # via
+    #   matplotlib
+    #   pandas
 pytz==2025.2
     # via pandas
 six==1.17.0
     # via python-dateutil
+sqlalchemy==2.0.44
+    # via flask-sqlalchemy
+typing-extensions==4.15.0
+    # via sqlalchemy
 tzdata==2025.2
     # via pandas
 werkzeug==3.1.4
-    # via
-    #   -r requirements.in
-    #   flask
+    # via flask
