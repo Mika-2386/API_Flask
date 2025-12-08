@@ -1,7 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
-
 db = SQLAlchemy()
 
 class Salary_developer(db.Model):
@@ -9,8 +8,6 @@ class Salary_developer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     post = db.Column(db.String)
     salary = db.Column(db.Integer)
-    analysis_results = db.relationship('AnalysisResult', back_populates='file')
-
 
 class AnalysisResult(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -18,3 +15,4 @@ class AnalysisResult(db.Model):
     results = db.Column(db.JSON)  # новое поле для хранения всех результатов
     analysis_time = db.Column(db.DateTime, default=datetime.utcnow)
     file = db.relationship('Salary_developer', back_populates='analysis_results')
+

@@ -10,6 +10,7 @@ from models import *
 
 
 
+
 app = Flask(__name__)
 
 db_params = {}
@@ -21,6 +22,9 @@ UPLOAD_FOLDER = os.path.join(os.getcwd(), 'uploads')
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 # Загрузка и сохранение в uploaded
+
+
+
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
@@ -82,6 +86,7 @@ def download_table():
 def analyze_salary():
     with app.app_context():
         salaries = Salary_developer.query.all()
+
         if not salaries:
             return render_template(template_name_or_list='base.html', analysis_results=None, files=os.listdir(UPLOAD_FOLDER))
         df = pd.DataFrame([{
@@ -104,6 +109,7 @@ def analyze_salary():
     return render_template(template_name_or_list='base.html',
                            analysis_results=analysis_results,
                            files=os.listdir(UPLOAD_FOLDER))
+
 
 @app.route('/plot')
 def plot_salary():
